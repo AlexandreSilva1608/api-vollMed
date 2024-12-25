@@ -1,8 +1,9 @@
-package med.voll.api.paciente;
+package med.voll.api.domain.paciente;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import med.voll.api.endereco.DadosEndereco;
+import jakarta.validation.constraints.Size;
+import med.voll.api.domain.endereco.DadosEndereco;
 
 public record DadosCadastoPaciente(
 
@@ -16,6 +17,7 @@ public record DadosCadastoPaciente(
         String telefone,
 
         @NotBlank
+        @Size(min = 11, max = 11, message = "CPF deve ter 11 dígitos")
         String cpf,
 
         DadosEndereco endereco) {}

@@ -1,8 +1,9 @@
 package med.voll.api.controller;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
-import med.voll.api.paciente.*;
+import med.voll.api.domain.paciente.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -35,8 +36,12 @@ public class PacienteController {
 
     @GetMapping("/{id}")
     public ResponseEntity<DadosDetalhamentoPaciente> listaPacientePorId(@PathVariable Long id){
-        var paciente = repository.getReferenceById(id);
-        return ResponseEntity.ok(new DadosDetalhamentoPaciente(paciente));
+        try{
+            var paciente = repository.getReferenceById(id);
+            return ResponseEntity.ok(new DadosDetalhamentoPaciente(paciente));
+        } catch (EntityNotFoundException e) {
+            throw new RuntimeException(e.getMessage());
+        }
     }
 
     @PutMapping
